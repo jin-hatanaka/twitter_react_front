@@ -6,6 +6,8 @@ import SocialAuthButton from "../components/ui/SocialAuthButton";
 import XLogo from "../components/ui/XLogo";
 import SignUpModal from "../components/ui/SignUpModal";
 import LogInModal from "../components/ui/LogInModal";
+import { FcGoogle } from "react-icons/fc";
+import { FaApple } from "react-icons/fa";
 
 const SignUpLogInPage = () => {
   const [isOpenSignUp, setIsOpenSignUp] = useState(false);
@@ -21,8 +23,11 @@ const SignUpLogInPage = () => {
         <h2 className="mb-8 text-3xl font-semibold">今すぐ参加しましょう。</h2>
         <div>
           <div className="flex w-2xs flex-col items-center gap-4">
-            <SocialAuthButton service="google" label="Googleで登録" />
-            <SocialAuthButton service="apple" label="Appleのアカウントで登録" />
+            <SocialAuthButton icon={<FcGoogle />} label="Googleで登録" />
+            <SocialAuthButton
+              icon={<FaApple />}
+              label="Appleのアカウントで登録"
+            />
             <Or />
             <SignUpButton onClick={() => setIsOpenSignUp(true)} />
             <SignUpModal

@@ -3,7 +3,7 @@ import XLogo from "./XLogo";
 import ModalCloseButton from "./ModalCloseButton";
 import TextInput from "./TextInput";
 import { useState } from "react";
-import axios from "axios";
+import apiClient from "../../apis/apiClient";
 
 Modal.setAppElement("#root");
 
@@ -27,10 +27,7 @@ const SignUpModal = ({ isOpen, onClose }) => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(
-        "http://localhost:3000/api/v1/users",
-        signUpData,
-      );
+      const res = await apiClient.post("/users", signUpData);
       setSignUpData(initialSignUpData);
       onClose();
     } catch (e) {
