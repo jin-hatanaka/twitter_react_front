@@ -2,8 +2,37 @@ import Modal from "react-modal";
 import XLogo from "./XLogo";
 import ModalCloseButton from "./ModalCloseButton";
 import TextInput from "./TextInput";
+import { useState } from "react";
+import apiClient from "../../apis/apiClient";
+import { useNavigate } from "react-router-dom";
 
 const LogInModal = ({ isOpen, onClose }) => {
+  const initialLogInData = {
+    email: "",
+    password: "",
+  };
+
+  const [logInData, setLogInData] = useState(initialLogInData);
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setLogInData({ ...logInData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await apiClient.post("/users/sign_in", logInData);
+      localStorage.setItem("access-token", res.headers["access-token"]);
+      localStorage.setItem("client", res.headers["client"]);
+      localStorage.setItem("uid", res.headers["uid"]);
+      navigate("/home");
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -14,13 +43,25 @@ const LogInModal = ({ isOpen, onClose }) => {
       <XLogo size={31} />
       <div className="flex h-full w-full flex-col">
         <h1 className="py-7 text-3xl font-semibold">Xにログイン</h1>
-        <form action="" className="flex flex-1 flex-col">
+        <form onSubmit={handleSubmit} className="flex flex-1 flex-col">
           <div className="flex flex-col gap-7">
             <div>
-              <TextInput type="email" placeholder="メールアドレス" />
+              <TextInput
+                type="email"
+                name="email"
+                placeholder="メールアドレス"
+                value={logInData.email}
+                onChange={handleChange}
+              />
             </div>
             <div>
-              <TextInput type="password" placeholder="パスワード" />
+              <TextInput
+                type="password"
+                name="password"
+                placeholder="パスワード"
+                value={logInData.password}
+                onChange={handleChange}
+              />
             </div>
           </div>
           <button
