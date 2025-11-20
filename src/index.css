@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* @theme {
+  --text-base: 0.9375rem;
+} */
+
 :root {
   color: #e7e9ea;
   background-color: #000;

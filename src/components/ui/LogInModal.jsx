@@ -72,7 +72,7 @@ const LogInModal = ({ isOpen, onClose }) => {
           </button>
           <div className="mb-6 text-gray-500">
             アカウントをお持ちでない場合は
-            <span className="text-blue-400">登録</span>
+            <span className="text-sky-500">登録</span>
           </div>
         </form>
       </div>

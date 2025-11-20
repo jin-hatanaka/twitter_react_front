@@ -1,0 +1,94 @@
+import { FaEarthAmericas } from "react-icons/fa6";
+import { CiImageOn } from "react-icons/ci";
+import { RiFileGifLine } from "react-icons/ri";
+import { RiListRadio } from "react-icons/ri";
+import { CiFaceSmile } from "react-icons/ci";
+import { TbCalendarTime } from "react-icons/tb";
+import { FiMapPin } from "react-icons/fi";
+import PostButton from "../ui/PostButton";
+import { useState } from "react";
+import apiClient from "../../apis/apiClient";
+
+const TweetForm = () => {
+  const [tweetId, setTweetId] = useState("");
+  const [tweetContent, setTweetContent] = useState("");
+
+  const uploadImages = async (images) => {
+    try {
+      const formData = new FormData();
+
+      // 複数画像を FormData に追加
+      images.forEach((img) => {
+        formData.append("images[]", img);
+      });
+
+      const res = await apiClient.post("/images", formData);
+
+      // 空TweetのIDを保存
+      setTweetId(res.data.tweet_id);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const submitTweet = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await apiClient.post("/tweets", {
+        tweet_id: tweetId,
+        content: tweetContent,
+      });
+      setTweetContent("");
+      console.log("Tweet posted", res.data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  return (
+    <div className="flex border-b border-gray-600 px-4 pt-1">
+      <div className="me-2 mt-3 h-10 w-10 rounded-full bg-white"></div>
+      <div className="flex-1 pt-1">
+        <form onSubmit={submitTweet}>
+          <input
+            type="text"
+            name="content"
+            placeholder="いまどうしてる？"
+            value={tweetContent}
+            onChange={(e) => setTweetContent(e.target.value)}
+            className="mx-0.5 mt-0.5 w-full py-3 text-xl focus:border-0 focus:outline-0"
+          />
+          <div className="mt-1 flex items-center border-b border-gray-600 px-2 pb-3 text-sky-500">
+            <FaEarthAmericas size={13} />
+            <span className="ml-1 text-sm font-bold">全員が返信できます</span>
+          </div>
+          <div className="flex justify-between py-2">
+            <div className="flex items-center gap-4 px-1.5 text-sky-500">
+              <label>
+                <CiImageOn size={20} className="cursor-pointer" />
+                <input
+                  type="file"
+                  multiple
+                  onChange={(e) => {
+                    const images = Array.from(e.target.files);
+                    uploadImages(images);
+                  }}
+                  className="hidden"
+                />
+              </label>
+              <RiFileGifLine size={20} />
+              <RiListRadio size={20} />
+              <CiFaceSmile size={20} />
+              <TbCalendarTime size={20} />
+              <FiMapPin size={20} />
+            </div>
+            <PostButton size="small" />
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default TweetForm;
