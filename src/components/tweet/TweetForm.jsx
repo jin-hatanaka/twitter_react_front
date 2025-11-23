@@ -10,37 +10,33 @@ import { useState } from "react";
 import apiClient from "../../apis/apiClient";
 
 const TweetForm = () => {
-  const [tweetId, setTweetId] = useState("");
   const [tweetContent, setTweetContent] = useState("");
-
-  const uploadImages = async (images) => {
-    try {
-      const formData = new FormData();
-
-      // 複数画像を FormData に追加
-      images.forEach((img) => {
-        formData.append("images[]", img);
-      });
-
-      const res = await apiClient.post("/images", formData);
-
-      // 空TweetのIDを保存
-      setTweetId(res.data.tweet_id);
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  const [tweetImages, setTweetImages] = useState([]);
 
   const submitTweet = async (e) => {
     e.preventDefault();
 
     try {
+      // Tweet を作成
       const res = await apiClient.post("/tweets", {
-        tweet_id: tweetId,
         content: tweetContent,
       });
+
+      const tweetId = res.data.tweet_id;
+
+      // 画像があれば紐づける
+      if (tweetImages.length > 0) {
+        const formData = new FormData();
+        // 複数画像を FormData に追加
+        tweetImages.forEach((img) => formData.append("images[]", img));
+        // TweetのIDを FormData に追加
+        formData.append("tweet_id", tweetId);
+
+        await apiClient.post("/images", formData);
+      }
+
       setTweetContent("");
-      console.log("Tweet posted", res.data);
+      setTweetImages([]);
     } catch (e) {
       console.error(e);
     }
@@ -72,7 +68,7 @@ const TweetForm = () => {
                   multiple
                   onChange={(e) => {
                     const images = Array.from(e.target.files);
-                    uploadImages(images);
+                    setTweetImages(images);
                   }}
                   className="hidden"
                 />
