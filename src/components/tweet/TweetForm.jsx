@@ -10,8 +10,8 @@ import { useState } from "react";
 import apiClient from "../../apis/apiClient";
 
 const TweetForm = () => {
-  const [tweetContent, setTweetContent] = useState("");
-  const [tweetImages, setTweetImages] = useState([]);
+  const [content, setContent] = useState("");
+  const [images, setImages] = useState([]);
 
   const submitTweet = async (e) => {
     e.preventDefault();
@@ -19,24 +19,24 @@ const TweetForm = () => {
     try {
       // Tweet を作成
       const res = await apiClient.post("/tweets", {
-        content: tweetContent,
+        content: content,
       });
 
       const tweetId = res.data.tweet_id;
 
       // 画像があれば紐づける
-      if (tweetImages.length > 0) {
+      if (images.length > 0) {
         const formData = new FormData();
         // 複数画像を FormData に追加
-        tweetImages.forEach((img) => formData.append("images[]", img));
+        images.forEach((img) => formData.append("images[]", img));
         // TweetのIDを FormData に追加
         formData.append("tweet_id", tweetId);
 
         await apiClient.post("/images", formData);
       }
 
-      setTweetContent("");
-      setTweetImages([]);
+      setContent("");
+      setImages([]);
     } catch (e) {
       console.error(e);
     }
@@ -51,8 +51,8 @@ const TweetForm = () => {
             type="text"
             name="content"
             placeholder="いまどうしてる？"
-            value={tweetContent}
-            onChange={(e) => setTweetContent(e.target.value)}
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
             className="mx-0.5 mt-0.5 w-full py-3 text-xl focus:border-0 focus:outline-0"
           />
           <div className="mt-1 flex items-center border-b border-gray-600 px-2 pb-3 text-sky-500">
@@ -68,7 +68,7 @@ const TweetForm = () => {
                   multiple
                   onChange={(e) => {
                     const images = Array.from(e.target.files);
-                    setTweetImages(images);
+                    setImages(images);
                   }}
                   className="hidden"
                 />

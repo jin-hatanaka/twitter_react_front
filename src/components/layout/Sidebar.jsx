@@ -11,10 +11,10 @@ import { TbDotsCircleHorizontal } from "react-icons/tb";
 import PostButton from "../ui/PostButton";
 import { BsThreeDots } from "react-icons/bs";
 
-const Sidebar = () => {
-  const navItemClass =
-    "flex cursor-pointer items-center gap-4 rounded-full px-4 py-2.5 text-xl transition-colors duration-200 hover:bg-zinc-900";
+const navItemClass =
+  "flex cursor-pointer items-center gap-4 rounded-full px-4 py-2.5 text-xl transition-colors duration-200 hover:bg-zinc-900";
 
+const Sidebar = () => {
   return (
     <div>
       <div className="px-4">
