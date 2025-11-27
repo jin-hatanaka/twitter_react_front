@@ -1,5 +1,5 @@
 const baseInputClass =
-  "w-full rounded-sm border border-gray-700 px-2 py-3 outline-none focus:border-2 focus:border-blue-400";
+  "w-full rounded-sm border border-gray-700 px-2 py-3 outline-none focus:border-2 focus:border-sky-500";
 
 const TextInput = ({ type = "text", placeholder = "", ...props }) => {
   return (
