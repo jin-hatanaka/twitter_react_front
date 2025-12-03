@@ -9,7 +9,7 @@ import PostButton from "../ui/PostButton";
 import { useState } from "react";
 import apiClient from "../../apis/apiClient";
 
-const TweetForm = () => {
+const TweetForm = ({ user, reloadTweets }) => {
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
 
@@ -22,7 +22,7 @@ const TweetForm = () => {
         content: content,
       });
 
-      const tweetId = res.data.tweet_id;
+      const tweetId = res.data.tweetId;
 
       // 画像があれば紐づける
       if (images.length > 0) {
@@ -37,14 +37,19 @@ const TweetForm = () => {
 
       setContent("");
       setImages([]);
+      reloadTweets();
     } catch (e) {
       console.error(e);
     }
   };
 
   return (
-    <div className="flex border-b border-gray-600 px-4 pt-1">
-      <div className="me-2 mt-3 h-10 w-10 rounded-full bg-white"></div>
+    <div className="flex border-b border-gray-700 px-4 pt-1">
+      <div className="me-2 mt-3">
+        {user?.iconImage && (
+          <img src={user.iconImage} className="rounded-full" />
+        )}
+      </div>
       <div className="flex-1 pt-1">
         <form onSubmit={submitTweet}>
           <input
@@ -55,7 +60,7 @@ const TweetForm = () => {
             onChange={(e) => setContent(e.target.value)}
             className="mx-0.5 mt-0.5 w-full py-3 text-xl focus:border-0 focus:outline-0"
           />
-          <div className="mt-1 flex items-center border-b border-gray-600 px-2 pb-3 text-sky-500">
+          <div className="mt-1 flex items-center border-b border-gray-700 px-2 pb-3 text-sky-500">
             <FaEarthAmericas size={13} />
             <span className="ml-1 text-sm font-bold">全員が返信できます</span>
           </div>

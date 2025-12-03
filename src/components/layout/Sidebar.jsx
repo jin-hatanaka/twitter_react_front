@@ -14,9 +14,9 @@ import { BsThreeDots } from "react-icons/bs";
 const navItemClass =
   "flex cursor-pointer items-center gap-4 rounded-full px-4 py-2.5 text-xl transition-colors duration-200 hover:bg-zinc-900";
 
-const Sidebar = () => {
+const Sidebar = ({ user }) => {
   return (
-    <div>
+    <div className="sticky top-3">
       <div className="px-4">
         <XLogo size={30} />
       </div>
@@ -64,10 +64,14 @@ const Sidebar = () => {
         <PostButton size="medium" />
       </div>
       <button className="mt-10 flex h-16 w-64 cursor-pointer items-center gap-3 rounded-full p-3 transition-colors duration-200 hover:bg-zinc-900">
-        <div className="h-10 w-10 rounded-full bg-white"></div>
+        <div>
+          {user?.iconImage && (
+            <img src={user.iconImage} className="rounded-full" />
+          )}
+        </div>
         <div className="flex flex-col">
           <span className="me-auto font-semibold">user1</span>
-          <span className="text-gray-500">@x_clone01</span>
+          <span className="text-gray-500">@x_clone</span>
         </div>
         <BsThreeDots className="ms-auto" />
       </button>
