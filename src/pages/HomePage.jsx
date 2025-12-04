@@ -13,11 +13,8 @@ const HomePage = () => {
   const [activeTab, setActiveTab] = useState("recommend");
   const [user, setUser] = useState([]);
   const [tweets, setTweets] = useState([]);
-  const [followingTweets, setFollowingTweets] = useState([]);
   const [tweetCount, setTweetCount] = useState(0);
-  const [followingTweetCount, setFollowingTweetCount] = useState(0);
-  const [recommendedOffset, setRecommendedOffset] = useState(0);
-  const [followingOffset, setFollowingOffset] = useState(0);
+  const [offset, setOffset] = useState(0);
   const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
@@ -33,62 +30,32 @@ const HomePage = () => {
   }, []);
 
   useEffect(() => {
-    const fetchRecommendedTweets = async () => {
+    const fetchTweets = async () => {
       try {
         const res = await apiClient.get(
-          `/tweets?limit=${LIMIT}&recommended_offset=${recommendedOffset}`,
+          `/tweets?limit=${LIMIT}&offset=${offset}`,
         );
-        setTweets(res.data.tweets.data);
-        setTweetCount(res.data.tweets.count);
+        setTweets(res.data.tweets);
+        setTweetCount(res.data.count);
       } catch (e) {
         console.error(e);
       }
     };
-    fetchRecommendedTweets();
-  }, [recommendedOffset, reloadKey]);
+    fetchTweets();
+  }, [offset, reloadKey]);
 
-  useEffect(() => {
-    const fetchFollowingTweets = async () => {
-      try {
-        const res = await apiClient.get(
-          `/tweets?limit=${LIMIT}&following_offset=${followingOffset}`,
-        );
-        setFollowingTweets(res.data.followingTweets.data);
-        setFollowingTweetCount(res.data.followingTweets.count);
-      } catch (e) {
-        console.error(e);
-      }
-    };
-    fetchFollowingTweets();
-  }, [followingOffset, reloadKey]);
-
-  const handleRecommendPrev = () => {
-    if (recommendedOffset === 0) return;
-
-    setRecommendedOffset((prev) => prev - LIMIT);
+  const handlePrev = () => {
+    if (offset === 0) return;
+    setOffset((prev) => prev - LIMIT);
   };
 
-  const handleRecommendNext = () => {
-    if (recommendedOffset + LIMIT >= tweetCount) return;
-
-    setRecommendedOffset((prev) => prev + LIMIT);
-  };
-
-  const handleFollowPrev = () => {
-    if (followingOffset === 0) return;
-
-    setFollowingOffset((prev) => prev - LIMIT);
-  };
-
-  const handleFollowNext = () => {
-    if (followingOffset + LIMIT >= followingTweetCount) return;
-
-    setFollowingOffset((prev) => prev + LIMIT);
+  const handleNext = () => {
+    if (offset + LIMIT >= tweetCount) return;
+    setOffset((prev) => prev + LIMIT);
   };
 
   const reloadTweets = () => {
-    setRecommendedOffset(0);
-    setFollowingOffset(0);
+    setOffset(0);
     setReloadKey((prev) => prev + 1); //offset=0 の状態でも必ず一覧をリロードする
   };
 
@@ -128,22 +95,7 @@ const HomePage = () => {
             {tweets.map((tweet) => (
               <TweetCard key={tweet.id} tweet={tweet} />
             ))}
-            <PaginationButtons
-              onPrev={handleRecommendPrev}
-              onNext={handleRecommendNext}
-            />
-          </>
-        )}
-        {activeTab === "follow" && (
-          <>
-            <TweetForm user={user} reloadTweets={reloadTweets} />
-            {followingTweets.map((tweet) => (
-              <TweetCard key={tweet.id} tweet={tweet} />
-            ))}
-            <PaginationButtons
-              onPrev={handleFollowPrev}
-              onNext={handleFollowNext}
-            />
+            <PaginationButtons onPrev={handlePrev} onNext={handleNext} />
           </>
         )}
       </div>
