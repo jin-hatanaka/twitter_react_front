@@ -5,29 +5,19 @@ import TweetForm from "../components/tweet/TweetForm";
 import apiClient from "../apis/apiClient";
 import TweetCard from "../components/tweet/TweetCard";
 import PaginationButtons from "../components/ui/PaginationButtons";
+import { useUser } from "../contexts/UserContext";
 
 const active = "border-b-4 border-sky-500 pt-1 font-bold text-white";
 const LIMIT = 5;
 
 const HomePage = () => {
+  const user = useUser();
+
   const [activeTab, setActiveTab] = useState("recommend");
-  const [user, setUser] = useState([]);
   const [tweets, setTweets] = useState([]);
   const [tweetCount, setTweetCount] = useState(0);
   const [offset, setOffset] = useState(0);
   const [reloadKey, setReloadKey] = useState(0);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await apiClient.get("/users/me");
-        setUser(res.data);
-      } catch (e) {
-        console.error(e);
-      }
-    };
-    fetchUser();
-  }, []);
 
   useEffect(() => {
     const fetchTweets = async () => {
