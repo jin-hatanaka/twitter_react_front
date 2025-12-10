@@ -10,6 +10,7 @@ import { BsPerson } from "react-icons/bs";
 import { TbDotsCircleHorizontal } from "react-icons/tb";
 import PostButton from "../ui/PostButton";
 import { BsThreeDots } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 const navItemClass =
   "flex cursor-pointer items-center gap-4 rounded-full px-4 py-2.5 text-xl transition-colors duration-200 hover:bg-zinc-900";
@@ -20,11 +21,13 @@ const Sidebar = ({ user }) => {
       <div className="px-4">
         <XLogo size={30} />
       </div>
-      <div className="mt-2">
-        <button className={navItemClass}>
-          <GoHome size={30} />
-          <span>ホーム</span>
-        </button>
+      <div className="mt-4">
+        <Link to="/home">
+          <button className={navItemClass}>
+            <GoHome size={30} />
+            <span>ホーム</span>
+          </button>
+        </Link>
         <button className={navItemClass}>
           <FiSearch size={28} />
           <span>話題を検索</span>
@@ -63,7 +66,7 @@ const Sidebar = ({ user }) => {
         </button>
         <PostButton size="medium" />
       </div>
-      <button className="mt-10 flex h-16 w-64 cursor-pointer items-center gap-3 rounded-full p-3 transition-colors duration-200 hover:bg-zinc-900">
+      <button className="mt-10 flex h-16 w-64 cursor-pointer items-center gap-2 rounded-full p-3 transition-colors duration-200 hover:bg-zinc-900">
         <div>
           {user?.iconImage && (
             <img src={user.iconImage} className="rounded-full" />

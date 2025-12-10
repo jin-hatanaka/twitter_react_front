@@ -22,7 +22,7 @@ const TweetForm = ({ user, reloadTweets }) => {
         content: content,
       });
 
-      const tweetId = res.data.tweetId;
+      const tweetId = res.data.id;
 
       // 画像があれば紐づける
       if (images.length > 0) {
