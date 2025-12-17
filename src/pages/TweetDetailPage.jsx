@@ -11,10 +11,10 @@ import { FiUpload } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import apiClient from "../apis/apiClient";
 import { cdate } from "cdate";
-import { useUser } from "../contexts/UserContext";
+import { useCurrentUser } from "../contexts/CurrentUserContext";
 
 const TweetDetailPage = () => {
-  const user = useUser();
+  const { currentUser } = useCurrentUser();
 
   const [tweet, setTweet] = useState({});
   const { id } = useParams();
@@ -34,7 +34,7 @@ const TweetDetailPage = () => {
   return (
     <div className="grid min-h-screen grid-cols-12 justify-center">
       <div className="col-span-3 pt-3 pl-23">
-        <Sidebar user={user} />
+        <Sidebar user={currentUser} />
       </div>
       <div className="col-span-5 border-s border-e border-gray-700">
         <div className="sticky inset-x-0 top-0 bg-black/90">
@@ -80,8 +80,8 @@ const TweetDetailPage = () => {
         </div>
         <div className="flex border-b border-gray-700 px-4 pt-2 pb-5">
           <div className="me-2 mt-2">
-            {user?.iconImage && (
-              <img src={user.iconImage} className="rounded-full" />
+            {currentUser?.iconImage && (
+              <img src={currentUser.iconImage} className="rounded-full" />
             )}
           </div>
           <div className="flex flex-1 items-center justify-between pt-0.5">

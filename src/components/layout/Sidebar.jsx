@@ -56,10 +56,12 @@ const Sidebar = ({ user }) => {
           <XLogo size={28} />
           <span>プレミアム</span>
         </button>
-        <button className={navItemClass}>
-          <BsPerson size={30} />
-          <span>プロフィール</span>
-        </button>
+        <Link to={`/users/${user?.id}`}>
+          <button className={navItemClass}>
+            <BsPerson size={30} />
+            <span>プロフィール</span>
+          </button>
+        </Link>
         <button className={`mb-2 ${navItemClass}`}>
           <TbDotsCircleHorizontal size={30} />
           <span>もっと見る</span>

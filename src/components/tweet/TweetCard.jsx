@@ -6,17 +6,27 @@ import { BiBarChart } from "react-icons/bi";
 import { GoBookmark } from "react-icons/go";
 import { FiUpload } from "react-icons/fi";
 import { cdate } from "cdate";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const TweetCard = ({ tweet }) => {
+  const navigate = useNavigate();
+
   return (
-    <Link to={`/tweets/${tweet.id}`}>
-      <div className="flex border-b border-gray-700 px-4 py-3">
-        <div className="me-2">
+    <div
+      onClick={() => navigate(`/tweets/${tweet.id}`)}
+      className="cursor-pointer"
+    >
+      <div className="flex items-start border-b border-gray-700 px-4 py-3">
+        <Link
+          to={`/users/${tweet.user.id}`}
+          // 親のクリックを止める
+          onClick={(e) => e.stopPropagation()}
+          className="me-2"
+        >
           {tweet?.iconImage && (
             <img src={tweet.iconImage} className="rounded-full" />
           )}
-        </div>
+        </Link>
         <div className="flex-1">
           <div className="flex items-center">
             <span className="font-semibold">{tweet.user.name}</span>
@@ -48,7 +58,7 @@ const TweetCard = ({ tweet }) => {
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 

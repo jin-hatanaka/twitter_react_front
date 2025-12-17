@@ -39,7 +39,9 @@ const LogInModal = ({ isOpen, onClose }) => {
       className="relative mx-auto mt-16 flex h-163 w-150 flex-col items-center rounded-2xl bg-black px-20 pt-2"
       overlayClassName="fixed inset-0 bg-sky-200/20"
     >
-      <ModalCloseButton onClick={onClose} />
+      <div className="absolute top-2 left-2">
+        <ModalCloseButton onClick={onClose} />
+      </div>
       <XLogo size={31} />
       <div className="flex h-full w-full flex-col">
         <h1 className="py-7 text-3xl font-semibold">Xにログイン</h1>

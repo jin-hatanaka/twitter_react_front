@@ -5,13 +5,13 @@ import TweetForm from "../components/tweet/TweetForm";
 import apiClient from "../apis/apiClient";
 import TweetCard from "../components/tweet/TweetCard";
 import PaginationButtons from "../components/ui/PaginationButtons";
-import { useUser } from "../contexts/UserContext";
+import { useCurrentUser } from "../contexts/CurrentUserContext";
 
 const active = "border-b-4 border-sky-500 pt-1 font-bold text-white";
 const LIMIT = 5;
 
 const HomePage = () => {
-  const user = useUser();
+  const { currentUser } = useCurrentUser();
 
   const [activeTab, setActiveTab] = useState("recommend");
   const [tweets, setTweets] = useState([]);
@@ -52,7 +52,7 @@ const HomePage = () => {
   return (
     <div className="grid min-h-screen grid-cols-12 justify-center">
       <div className="col-span-3 pt-3 pl-23">
-        <Sidebar user={user} />
+        <Sidebar user={currentUser} />
       </div>
       <div className="col-span-5 border-s border-e border-gray-700">
         <div className="sticky inset-x-0 top-0 bg-black/90">
@@ -81,7 +81,7 @@ const HomePage = () => {
         </div>
         {activeTab === "recommend" && (
           <>
-            <TweetForm user={user} reloadTweets={reloadTweets} />
+            <TweetForm user={currentUser} reloadTweets={reloadTweets} />
             {tweets.map((tweet) => (
               <TweetCard key={tweet.id} tweet={tweet} />
             ))}
