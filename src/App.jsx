@@ -3,20 +3,22 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignUpLogInPage from "./pages/SignUpLogInPage";
 import HomePage from "./pages/HomePage";
 import TweetDetailPage from "./pages/TweetDetailPage";
-import { UserProvider } from "./contexts/UserContext";
+import { CurrentUserProvider } from "./contexts/CurrentUserContext";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   return (
     <>
-      <UserProvider>
+      <CurrentUserProvider>
         <Router>
           <Routes>
             <Route path="/" element={<SignUpLogInPage />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/tweets/:id" element={<TweetDetailPage />} />
+            <Route path="/users/:id" element={<ProfilePage />} />
           </Routes>
         </Router>
-      </UserProvider>
+      </CurrentUserProvider>
     </>
   );
 }
