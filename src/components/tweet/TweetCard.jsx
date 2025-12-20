@@ -7,9 +7,23 @@ import { GoBookmark } from "react-icons/go";
 import { FiUpload } from "react-icons/fi";
 import { cdate } from "cdate";
 import { Link, useNavigate } from "react-router-dom";
+import { useCurrentUser } from "../../contexts/CurrentUserContext";
+import apiClient from "../../apis/apiClient";
+import TweetMoreMenu from "./TweetMoreMenu";
 
-const TweetCard = ({ tweet }) => {
+const TweetCard = ({ tweet, reloadTweets, fetchUserProfile }) => {
+  const { currentUser } = useCurrentUser();
   const navigate = useNavigate();
+
+  const deleteTweet = async () => {
+    try {
+      await apiClient.delete(`/tweets/${tweet.id}`);
+      reloadTweets?.();
+      fetchUserProfile?.();
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
     <div
@@ -33,7 +47,12 @@ const TweetCard = ({ tweet }) => {
             <span className="text-gray-500">
               ・{cdate(tweet.createdAt).format("MM月DD日")}
             </span>
-            <BsThreeDots className="ms-auto text-gray-500" />
+            <div className="ms-auto">
+              <TweetMoreMenu
+                isOwner={currentUser.id === tweet.user.id}
+                onDelete={deleteTweet}
+              />
+            </div>
           </div>
           <div>
             <span>{tweet.content}</span>

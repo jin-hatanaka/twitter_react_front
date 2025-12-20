@@ -152,7 +152,11 @@ const ProfilePage = () => {
           {activeTab === "post" && (
             <>
               {tweets.map((tweet) => (
-                <TweetCard key={tweet.id} tweet={tweet} />
+                <TweetCard
+                  key={tweet.id}
+                  tweet={tweet}
+                  fetchUserProfile={() => fetchUserProfile()}
+                />
               ))}
             </>
           )}
