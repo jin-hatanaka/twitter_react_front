@@ -83,7 +83,11 @@ const HomePage = () => {
           <>
             <TweetForm user={currentUser} reloadTweets={reloadTweets} />
             {tweets.map((tweet) => (
-              <TweetCard key={tweet.id} tweet={tweet} />
+              <TweetCard
+                key={tweet.id}
+                tweet={tweet}
+                reloadTweets={reloadTweets}
+              />
             ))}
             <PaginationButtons onPrev={handlePrev} onNext={handleNext} />
           </>
