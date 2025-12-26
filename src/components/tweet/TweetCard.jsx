@@ -1,4 +1,3 @@
-import { BsThreeDots } from "react-icons/bs";
 import { BsChat } from "react-icons/bs";
 import { LuRepeat2 } from "react-icons/lu";
 import { GoHeart } from "react-icons/go";
@@ -16,6 +15,7 @@ const TweetCard = ({
   reloadTweets,
   fetchUserProfile,
   onClickComment,
+  isComment,
 }) => {
   const { currentUser } = useCurrentUser();
   const navigate = useNavigate();
@@ -23,7 +23,9 @@ const TweetCard = ({
   const deleteTweet = async () => {
     try {
       await apiClient.delete(`/tweets/${tweet.id}`);
+      // ホーム画面再レンダリング
       reloadTweets?.();
+      // プロフィール画面再レンダリング
       fetchUserProfile?.();
     } catch (e) {
       console.error(e);
@@ -32,8 +34,8 @@ const TweetCard = ({
 
   return (
     <div
-      onClick={() => navigate(`/tweets/${tweet.id}`)}
-      className="cursor-pointer"
+      onClick={isComment ? undefined : () => navigate(`/tweets/${tweet.id}`)}
+      className={`${isComment ? "cursor-default" : "cursor-pointer"}`}
     >
       <div className="flex items-start border-b border-gray-700 px-4 py-3">
         <Link
@@ -73,9 +75,9 @@ const TweetCard = ({
               <button
                 onClick={(e) => {
                   e.stopPropagation();
-                  onClickComment();
+                  onClickComment?.();
                 }}
-                className="cursor-pointer"
+                className={`${isComment ? "cursor-default" : "cursor-pointer"}`}
               >
                 <BsChat size={17} />
               </button>
