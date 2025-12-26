@@ -6,6 +6,7 @@ import apiClient from "../apis/apiClient";
 import TweetCard from "../components/tweet/TweetCard";
 import PaginationButtons from "../components/ui/PaginationButtons";
 import { useCurrentUser } from "../contexts/CurrentUserContext";
+import CommentModal from "../components/ui/CommentModal";
 
 const active = "border-b-4 border-sky-500 pt-1 font-bold text-white";
 const LIMIT = 5;
@@ -18,6 +19,8 @@ const HomePage = () => {
   const [tweetCount, setTweetCount] = useState(0);
   const [offset, setOffset] = useState(0);
   const [reloadKey, setReloadKey] = useState(0);
+  const [isOpenComment, setIsOpenComment] = useState(false);
+  const [commentTweetId, setCommentTweetId] = useState(null);
 
   useEffect(() => {
     const fetchTweets = async () => {
@@ -87,8 +90,17 @@ const HomePage = () => {
                 key={tweet.id}
                 tweet={tweet}
                 reloadTweets={reloadTweets}
+                onClickComment={() => {
+                  setIsOpenComment(true);
+                  setCommentTweetId(tweet.id);
+                }}
               />
             ))}
+            <CommentModal
+              isOpen={isOpenComment}
+              onClose={() => setIsOpenComment(false)}
+              tweetId={commentTweetId}
+            />
             <PaginationButtons onPrev={handlePrev} onNext={handleNext} />
           </>
         )}

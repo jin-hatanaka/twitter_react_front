@@ -11,7 +11,12 @@ import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import apiClient from "../../apis/apiClient";
 import TweetMoreMenu from "./TweetMoreMenu";
 
-const TweetCard = ({ tweet, reloadTweets, fetchUserProfile }) => {
+const TweetCard = ({
+  tweet,
+  reloadTweets,
+  fetchUserProfile,
+  onClickComment,
+}) => {
   const { currentUser } = useCurrentUser();
   const navigate = useNavigate();
 
@@ -65,7 +70,15 @@ const TweetCard = ({ tweet, reloadTweets, fetchUserProfile }) => {
           </div>
           <div className="flex justify-between pt-3 text-gray-500">
             <div className="flex items-center gap-25">
-              <BsChat size={17} />
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onClickComment();
+                }}
+                className="cursor-pointer"
+              >
+                <BsChat size={17} />
+              </button>
               <LuRepeat2 size={20} />
               <GoHeart size={18} />
               <BiBarChart size={20} />
