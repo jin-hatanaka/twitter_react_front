@@ -5,10 +5,11 @@ import { BiBarChart } from "react-icons/bi";
 import { GoBookmark } from "react-icons/go";
 import { FiUpload } from "react-icons/fi";
 import { cdate } from "cdate";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import apiClient from "../../apis/apiClient";
 import TweetMoreMenu from "./TweetMoreMenu";
+import TweetCardWrapper from "./TweetCardWrapper";
 
 const TweetCard = ({
   tweet,
@@ -18,7 +19,6 @@ const TweetCard = ({
   isComment,
 }) => {
   const { currentUser } = useCurrentUser();
-  const navigate = useNavigate();
 
   const deleteTweet = async () => {
     try {
@@ -33,16 +33,13 @@ const TweetCard = ({
   };
 
   return (
-    <div
-      onClick={isComment ? undefined : () => navigate(`/tweets/${tweet.id}`)}
-      className={`${isComment ? "cursor-default" : "cursor-pointer"}`}
-    >
+    <TweetCardWrapper isComment={isComment} tweet={tweet}>
       <div className="flex items-start border-b border-gray-700 px-4 py-3">
         <Link
           to={`/users/${tweet.user.id}`}
           // 親のクリックを止める
           onClick={(e) => e.stopPropagation()}
-          className="me-2"
+          className="relative z-10 me-2"
         >
           {tweet?.iconImage && (
             <img src={tweet.iconImage} className="rounded-full" />
@@ -77,7 +74,7 @@ const TweetCard = ({
                   e.stopPropagation();
                   onClickComment?.();
                 }}
-                className={`${isComment ? "cursor-default" : "cursor-pointer"}`}
+                className={`z-10 ${isComment ? "cursor-default" : "cursor-pointer"}`}
               >
                 <BsChat size={17} />
               </button>
@@ -92,7 +89,7 @@ const TweetCard = ({
           </div>
         </div>
       </div>
-    </div>
+    </TweetCardWrapper>
   );
 };
 
