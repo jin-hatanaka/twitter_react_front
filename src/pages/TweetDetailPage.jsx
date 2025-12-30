@@ -12,11 +12,13 @@ import { useEffect, useState } from "react";
 import apiClient from "../apis/apiClient";
 import { cdate } from "cdate";
 import { useCurrentUser } from "../contexts/CurrentUserContext";
+import TweetCard from "../components/tweet/TweetCard";
 
 const TweetDetailPage = () => {
   const { currentUser } = useCurrentUser();
 
   const [tweet, setTweet] = useState({});
+  const [comments, setComments] = useState([]);
   const { id } = useParams();
 
   useEffect(() => {
@@ -29,6 +31,18 @@ const TweetDetailPage = () => {
       }
     };
     fetchTweet();
+  }, [id]);
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const res = await apiClient.get(`/tweets/${id}/comments`);
+        setComments(res.data.comments);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    fetchComments();
   }, [id]);
 
   return (
@@ -97,6 +111,9 @@ const TweetDetailPage = () => {
             </button>
           </div>
         </div>
+        {comments.map((comment) => (
+          <TweetCard key={comment.id} tweet={comment} isComment={true} />
+        ))}
       </div>
       <div className="col-span-4 pt-1 pl-7">
         <RightSidebar />
