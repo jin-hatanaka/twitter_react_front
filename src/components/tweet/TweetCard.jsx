@@ -17,16 +17,23 @@ const TweetCard = ({
   fetchUserProfile,
   onClickComment,
   isComment,
+  fetchComments,
 }) => {
   const { currentUser } = useCurrentUser();
 
   const deleteTweet = async () => {
     try {
-      await apiClient.delete(`/tweets/${tweet.id}`);
-      // ホーム画面再レンダリング
-      reloadTweets?.();
-      // プロフィール画面再レンダリング
-      fetchUserProfile?.();
+      if (isComment) {
+        await apiClient.delete(`/comments/${tweet.id}`);
+        // コメント一覧再レンダリング
+        fetchComments();
+      } else {
+        await apiClient.delete(`/tweets/${tweet.id}`);
+        // ホーム画面再レンダリング
+        reloadTweets?.();
+        // プロフィール画面再レンダリング
+        fetchUserProfile?.();
+      }
     } catch (e) {
       console.error(e);
     }
@@ -51,7 +58,7 @@ const TweetCard = ({
             <span className="text-gray-500">
               ・{cdate(tweet.createdAt).format("MM月DD日")}
             </span>
-            <div className="ms-auto">
+            <div className="relative ms-auto">
               <TweetMoreMenu
                 isOwner={currentUser.id === tweet.user.id}
                 onDelete={deleteTweet}
