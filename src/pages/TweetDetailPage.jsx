@@ -21,6 +21,15 @@ const TweetDetailPage = () => {
   const [comments, setComments] = useState([]);
   const { id } = useParams();
 
+  const fetchComments = async () => {
+    try {
+      const res = await apiClient.get(`/tweets/${id}/comments`);
+      setComments(res.data.comments);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   useEffect(() => {
     const fetchTweet = async () => {
       try {
@@ -34,14 +43,6 @@ const TweetDetailPage = () => {
   }, [id]);
 
   useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const res = await apiClient.get(`/tweets/${id}/comments`);
-        setComments(res.data.comments);
-      } catch (e) {
-        console.error(e);
-      }
-    };
     fetchComments();
   }, [id]);
 
@@ -112,7 +113,12 @@ const TweetDetailPage = () => {
           </div>
         </div>
         {comments.map((comment) => (
-          <TweetCard key={comment.id} tweet={comment} isComment={true} />
+          <TweetCard
+            key={comment.id}
+            tweet={comment}
+            isComment={true}
+            fetchComments={() => fetchComments()}
+          />
         ))}
       </div>
       <div className="col-span-4 pt-1 pl-7">

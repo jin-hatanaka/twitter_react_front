@@ -9,13 +9,13 @@ const TweetMoreMenu = ({ isOwner, onDelete }) => {
     return (
       <BsThreeDots
         onClick={(e) => e.stopPropagation()}
-        className="text-gray-500"
+        className="cursor-pointer text-gray-500"
       />
     );
   }
 
   return (
-    <div className="relative">
+    <>
       <button
         onClick={(e) => {
           e.stopPropagation();
@@ -41,7 +41,7 @@ const TweetMoreMenu = ({ isOwner, onDelete }) => {
           </button>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
