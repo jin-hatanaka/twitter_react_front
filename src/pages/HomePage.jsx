@@ -58,7 +58,7 @@ const HomePage = () => {
         <Sidebar user={currentUser} />
       </div>
       <div className="col-span-5 border-s border-e border-gray-700">
-        <div className="sticky inset-x-0 top-0 bg-black/90">
+        <div className="sticky inset-x-0 top-0 z-20 bg-black/90">
           <nav className="grid h-13.5 grid-cols-2 border-b border-gray-700">
             <button
               onClick={() => setActiveTab("recommend")}

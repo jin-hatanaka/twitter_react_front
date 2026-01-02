@@ -30,8 +30,18 @@ const ProfilePage = () => {
   const [user, setUser] = useState({});
   const [tweets, setTweets] = useState([]);
   const [tweetCount, setTweetCount] = useState(0);
+  const [comments, setComments] = useState([]);
   const [isOpenProfileEdit, setIsOpenProfileEdit] = useState(false);
   const [activeTab, setActiveTab] = useState("post");
+
+  const fetchComments = async () => {
+    try {
+      const res = await apiClient.get(`/users/${id}`);
+      setComments(res.data.comments);
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const fetchUserProfile = async () => {
     try {
@@ -39,6 +49,7 @@ const ProfilePage = () => {
       setUser(res.data.user);
       setTweets(res.data.tweets);
       setTweetCount(res.data.tweetCount);
+      setComments(res.data.comments);
     } catch (e) {
       console.error(e);
     }
@@ -54,7 +65,7 @@ const ProfilePage = () => {
         <Sidebar user={currentUser} />
       </div>
       <div className="col-span-5 border-s border-e border-gray-700">
-        <div className="sticky inset-x-0 top-0 z-10 bg-black/90">
+        <div className="sticky inset-x-0 top-0 z-20 bg-black/90">
           <nav className="flex h-13.5 items-center gap-10 px-4">
             <FaArrowLeft />
             <div className="flex flex-col justify-center">
@@ -156,6 +167,18 @@ const ProfilePage = () => {
                   key={tweet.id}
                   tweet={tweet}
                   fetchUserProfile={() => fetchUserProfile()}
+                />
+              ))}
+            </>
+          )}
+          {activeTab === "comment" && (
+            <>
+              {comments.map((comment) => (
+                <TweetCard
+                  key={comment.id}
+                  tweet={comment}
+                  isComment={true}
+                  fetchComments={() => fetchComments()}
                 />
               ))}
             </>

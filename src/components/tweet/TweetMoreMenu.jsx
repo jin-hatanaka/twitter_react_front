@@ -27,7 +27,7 @@ const TweetMoreMenu = ({ isOwner, onDelete }) => {
       {isOpen && (
         <div
           onClick={(e) => e.stopPropagation()}
-          className="absolute right-0 z-50 w-40 rounded-xl bg-black ring-1 ring-gray-700"
+          className="absolute right-0 z-10 w-40 rounded-xl bg-black ring-1 ring-gray-700"
         >
           <button
             onClick={() => {
