@@ -59,7 +59,7 @@ const ProfileEditModal = ({ isOpen, onClose, user }) => {
     <Modal
       isOpen={isOpen}
       className="relative mx-auto mt-16 flex h-163 w-150 flex-col overflow-hidden rounded-2xl bg-black"
-      overlayClassName="fixed inset-0 bg-sky-200/20 z-20"
+      overlayClassName="fixed inset-0 bg-sky-200/20 z-50"
     >
       <form onSubmit={handleSubmit} className="flex h-full flex-col">
         <div className="sticky inset-x-0 top-0 bg-black/90">
