@@ -1,5 +1,3 @@
-import { BsChat } from "react-icons/bs";
-import { LuRepeat2 } from "react-icons/lu";
 import { GoHeart } from "react-icons/go";
 import { BiBarChart } from "react-icons/bi";
 import { GoBookmark } from "react-icons/go";
@@ -10,14 +8,19 @@ import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import apiClient from "../../apis/apiClient";
 import TweetMoreMenu from "./TweetMoreMenu";
 import TweetCardWrapper from "./TweetCardWrapper";
+import ReTweetButton from "../ui/ReTweetButton";
+import CommentButton from "../ui/CommentButton";
 
 const TweetCard = ({
   tweet,
-  reloadTweets,
+  fetchTweets,
   fetchUserProfile,
   onClickComment,
   isComment,
   fetchComments,
+  isRetweeted,
+  retweetCount,
+  onClickRetweet,
 }) => {
   const { currentUser } = useCurrentUser();
 
@@ -30,7 +33,7 @@ const TweetCard = ({
       } else {
         await apiClient.delete(`/tweets/${tweet.id}`);
         // ホーム画面再レンダリング
-        reloadTweets?.();
+        fetchTweets?.();
         // プロフィール画面再レンダリング
         fetchUserProfile?.();
       }
@@ -76,16 +79,15 @@ const TweetCard = ({
           </div>
           <div className="flex justify-between pt-3 text-gray-500">
             <div className="flex items-center gap-25">
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onClickComment?.();
-                }}
-                className={`z-10 ${isComment ? "cursor-default" : "cursor-pointer"}`}
-              >
-                <BsChat size={17} />
-              </button>
-              <LuRepeat2 size={20} />
+              <CommentButton
+                onClickComment={onClickComment}
+                isComment={isComment}
+              />
+              <ReTweetButton
+                isRetweeted={isRetweeted}
+                retweetCount={retweetCount}
+                onClickRetweet={onClickRetweet}
+              />
               <GoHeart size={18} />
               <BiBarChart size={20} />
             </div>

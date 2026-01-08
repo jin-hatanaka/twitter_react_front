@@ -22,18 +22,19 @@ const HomePage = () => {
   const [isOpenComment, setIsOpenComment] = useState(false);
   const [commentTweetId, setCommentTweetId] = useState(null);
 
+  const fetchTweets = async () => {
+    try {
+      const res = await apiClient.get(
+        `/tweets?limit=${LIMIT}&offset=${offset}`,
+      );
+      setTweets(res.data.tweets);
+      setTweetCount(res.data.count);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   useEffect(() => {
-    const fetchTweets = async () => {
-      try {
-        const res = await apiClient.get(
-          `/tweets?limit=${LIMIT}&offset=${offset}`,
-        );
-        setTweets(res.data.tweets);
-        setTweetCount(res.data.count);
-      } catch (e) {
-        console.error(e);
-      }
-    };
     fetchTweets();
   }, [offset, reloadKey]);
 
@@ -50,6 +51,20 @@ const HomePage = () => {
   const reloadTweets = () => {
     setOffset(0);
     setReloadKey((prev) => prev + 1); //offset=0 の状態でも必ず一覧をリロードする
+  };
+
+  const handleClickRetweet = async (tweetId, isRetweeted) => {
+    try {
+      if (isRetweeted) {
+        await apiClient.delete(`/tweets/${tweetId}/retweets`);
+        fetchTweets();
+      } else {
+        await apiClient.post(`/tweets/${tweetId}/retweets`);
+        fetchTweets();
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -89,11 +104,16 @@ const HomePage = () => {
               <TweetCard
                 key={tweet.id}
                 tweet={tweet}
-                reloadTweets={reloadTweets}
+                isRetweeted={tweet.isRetweeted}
+                retweetCount={tweet.retweetCount}
+                fetchTweets={fetchTweets}
                 onClickComment={() => {
                   setIsOpenComment(true);
                   setCommentTweetId(tweet.id);
                 }}
+                onClickRetweet={() =>
+                  handleClickRetweet(tweet.id, tweet.isRetweeted)
+                }
               />
             ))}
             <CommentModal
