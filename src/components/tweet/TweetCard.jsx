@@ -1,4 +1,3 @@
-import { GoHeart } from "react-icons/go";
 import { BiBarChart } from "react-icons/bi";
 import { GoBookmark } from "react-icons/go";
 import { FiUpload } from "react-icons/fi";
@@ -10,6 +9,7 @@ import TweetMoreMenu from "./TweetMoreMenu";
 import TweetCardWrapper from "./TweetCardWrapper";
 import ReTweetButton from "../ui/ReTweetButton";
 import CommentButton from "../ui/CommentButton";
+import LikeButton from "../ui/LikeButton";
 
 const TweetCard = ({
   tweet,
@@ -21,6 +21,9 @@ const TweetCard = ({
   isRetweeted,
   retweetCount,
   onClickRetweet,
+  isLiked,
+  likeCount,
+  onClickLike,
 }) => {
   const { currentUser } = useCurrentUser();
 
@@ -63,7 +66,7 @@ const TweetCard = ({
             </span>
             <div className="relative ms-auto">
               <TweetMoreMenu
-                isOwner={currentUser.id === tweet.user.id}
+                isOwner={currentUser?.id === tweet.user.id}
                 onDelete={deleteTweet}
               />
             </div>
@@ -88,7 +91,11 @@ const TweetCard = ({
                 retweetCount={retweetCount}
                 onClickRetweet={onClickRetweet}
               />
-              <GoHeart size={18} />
+              <LikeButton
+                isLiked={isLiked}
+                likeCount={likeCount}
+                onClickLike={onClickLike}
+              />
               <BiBarChart size={20} />
             </div>
             <div className="flex items-center gap-3">
