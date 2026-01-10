@@ -67,6 +67,20 @@ const HomePage = () => {
     }
   };
 
+  const handleClickLike = async (tweetId, isLiked) => {
+    try {
+      if (isLiked) {
+        await apiClient.delete(`/tweets/${tweetId}/likes`);
+        fetchTweets();
+      } else {
+        await apiClient.post(`/tweets/${tweetId}/likes`);
+        fetchTweets();
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <div className="grid min-h-screen grid-cols-12 justify-center">
       <div className="col-span-3 pt-3 pl-23">
@@ -106,6 +120,8 @@ const HomePage = () => {
                 tweet={tweet}
                 isRetweeted={tweet.isRetweeted}
                 retweetCount={tweet.retweetCount}
+                isLiked={tweet.isLiked}
+                likeCount={tweet.likeCount}
                 fetchTweets={fetchTweets}
                 onClickComment={() => {
                   setIsOpenComment(true);
@@ -114,6 +130,7 @@ const HomePage = () => {
                 onClickRetweet={() =>
                   handleClickRetweet(tweet.id, tweet.isRetweeted)
                 }
+                onClickLike={() => handleClickLike(tweet.id, tweet.isLiked)}
               />
             ))}
             <CommentModal

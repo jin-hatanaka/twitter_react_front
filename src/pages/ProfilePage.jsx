@@ -166,6 +166,10 @@ const ProfilePage = () => {
                 <TweetCard
                   key={tweet.id}
                   tweet={tweet}
+                  isRetweeted={tweet.isRetweeted}
+                  retweetCount={tweet.retweetCount}
+                  isLiked={tweet.isLiked}
+                  likeCount={tweet.likeCount}
                   fetchUserProfile={() => fetchUserProfile()}
                 />
               ))}

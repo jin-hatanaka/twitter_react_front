@@ -75,7 +75,7 @@ const Sidebar = ({ user }) => {
           )}
         </div>
         <div className="flex flex-col">
-          <span className="me-auto font-semibold">user1</span>
+          <span className="me-auto font-semibold">{user?.name}</span>
           <span className="text-gray-500">@x_clone</span>
         </div>
         <BsThreeDots className="ms-auto" />
