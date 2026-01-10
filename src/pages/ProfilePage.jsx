@@ -13,6 +13,7 @@ import apiClient from "../apis/apiClient";
 import { cdate } from "cdate";
 import TweetCard from "../components/tweet/TweetCard";
 import { useCurrentUser } from "../contexts/CurrentUserContext";
+import FollowButton from "../components/ui/FollowButton";
 
 const tabs = [
   { key: "post", label: "ポスト" },
@@ -43,6 +44,15 @@ const ProfilePage = () => {
     }
   };
 
+  const fetchUser = async () => {
+    try {
+      const res = await apiClient.get(`/users/${id}`);
+      setUser(res.data.user);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const fetchUserProfile = async () => {
     try {
       const res = await apiClient.get(`/users/${id}`);
@@ -58,6 +68,20 @@ const ProfilePage = () => {
   useEffect(() => {
     fetchUserProfile();
   }, [id]);
+
+  const handleClickFollow = async () => {
+    try {
+      if (user.isFollowed) {
+        await apiClient.delete(`/users/${user.id}/unfollow`);
+        fetchUser();
+      } else {
+        await apiClient.post(`/users/${user.id}/follow`);
+        fetchUser();
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
     <div className="grid min-h-screen grid-cols-12 justify-center">
@@ -91,7 +115,14 @@ const ProfilePage = () => {
           </div>
           <div className="mb-4 flex flex-col px-4 pt-3">
             <div className="mb-7 ml-auto">
-              <ProfileEditButton onClick={() => setIsOpenProfileEdit(true)} />
+              {user.id === currentUser?.id ? (
+                <ProfileEditButton onClick={() => setIsOpenProfileEdit(true)} />
+              ) : (
+                <FollowButton
+                  isFollowed={user.isFollowed}
+                  onClickFollow={handleClickFollow}
+                />
+              )}
               <ProfileEditModal
                 isOpen={isOpenProfileEdit}
                 onClose={() => {
