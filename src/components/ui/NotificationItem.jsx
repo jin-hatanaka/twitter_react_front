@@ -34,8 +34,18 @@ const NotificationItem = ({
 }) => {
   const config = NOTIFICATION_CONFIG[action];
   const Icon = config.Icon;
-  const extraText =
-    action === "like" ? postContent : action === "comment" ? comment : null;
+  let extraText;
+
+  switch (action) {
+    case "like":
+      extraText = postContent;
+      break;
+    case "comment":
+      extraText = comment;
+      break;
+    default:
+      extraText = null;
+  }
 
   return (
     <div className="flex border-b border-gray-700 px-7 py-3">
