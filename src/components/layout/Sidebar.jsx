@@ -32,10 +32,12 @@ const Sidebar = ({ user }) => {
           <FiSearch size={28} />
           <span>話題を検索</span>
         </button>
-        <button className={navItemClass}>
-          <PiBell size={30} />
-          <span>通知</span>
-        </button>
+        <Link to="/notification">
+          <button className={navItemClass}>
+            <PiBell size={30} />
+            <span>通知</span>
+          </button>
+        </Link>
         <button className={navItemClass}>
           <CiMail size={30} />
           <span>メッセージ</span>
