@@ -6,6 +6,7 @@ import TweetDetailPage from "./pages/TweetDetailPage";
 import { CurrentUserProvider } from "./contexts/CurrentUserContext";
 import ProfilePage from "./pages/ProfilePage";
 import NotificationPage from "./pages/NotificationPage";
+import MessagePage from "./pages/MessagePage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/tweets/:id" element={<TweetDetailPage />} />
             <Route path="/users/:id" element={<ProfilePage />} />
             <Route path="notification" element={<NotificationPage />} />
+            <Route path="/message" element={<MessagePage />} />
           </Routes>
         </Router>
       </CurrentUserProvider>

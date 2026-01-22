@@ -8,12 +8,13 @@ import Sidebar from "../components/layout/Sidebar";
 import ProfileEditButton from "../components/ui/ProfileEditButton";
 import { useEffect, useState } from "react";
 import ProfileEditModal from "../components/ui/ProfileEditModal";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import apiClient from "../apis/apiClient";
 import { cdate } from "cdate";
 import TweetCard from "../components/tweet/TweetCard";
 import { useCurrentUser } from "../contexts/CurrentUserContext";
 import FollowButton from "../components/ui/FollowButton";
+import MessageButton from "../components/ui/MessageButton";
 
 const tabs = [
   { key: "post", label: "ポスト" },
@@ -27,6 +28,7 @@ const ProfilePage = () => {
   const { currentUser } = useCurrentUser();
 
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [user, setUser] = useState({});
   const [tweets, setTweets] = useState([]);
@@ -83,6 +85,17 @@ const ProfilePage = () => {
     }
   };
 
+  const handleClickMessage = async () => {
+    try {
+      await apiClient.post("/groups", {
+        user_id: user.id,
+      });
+      navigate("/message");
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <div className="grid min-h-screen grid-cols-12 justify-center">
       <div className="col-span-3 pt-3 pl-23">
@@ -118,10 +131,13 @@ const ProfilePage = () => {
               {user.id === currentUser?.id ? (
                 <ProfileEditButton onClick={() => setIsOpenProfileEdit(true)} />
               ) : (
-                <FollowButton
-                  isFollowed={user.isFollowed}
-                  onClickFollow={handleClickFollow}
-                />
+                <div className="flex items-center gap-2">
+                  <MessageButton onClickMessage={handleClickMessage} />
+                  <FollowButton
+                    isFollowed={user.isFollowed}
+                    onClickFollow={handleClickFollow}
+                  />
+                </div>
               )}
               <ProfileEditModal
                 isOpen={isOpenProfileEdit}

@@ -38,10 +38,12 @@ const Sidebar = ({ user }) => {
             <span>通知</span>
           </button>
         </Link>
-        <button className={navItemClass}>
-          <CiMail size={30} />
-          <span>メッセージ</span>
-        </button>
+        <Link to="/message">
+          <button className={navItemClass}>
+            <CiMail size={30} />
+            <span>メッセージ</span>
+          </button>
+        </Link>
         <button className={navItemClass}>
           <RiFileListLine size={30} />
           <span>リスト</span>
