@@ -7,6 +7,7 @@ import { CurrentUserProvider } from "./contexts/CurrentUserContext";
 import ProfilePage from "./pages/ProfilePage";
 import NotificationPage from "./pages/NotificationPage";
 import MessagePage from "./pages/MessagePage";
+import BookmarkPage from "./pages/BookmarkPage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/users/:id" element={<ProfilePage />} />
             <Route path="notification" element={<NotificationPage />} />
             <Route path="/message" element={<MessagePage />} />
+            <Route path="bookmark" element={<BookmarkPage />} />
           </Routes>
         </Router>
       </CurrentUserProvider>

@@ -48,10 +48,12 @@ const Sidebar = ({ user }) => {
           <RiFileListLine size={30} />
           <span>リスト</span>
         </button>
-        <button className={navItemClass}>
-          <GoBookmark size={30} />
-          <span>ブックマーク</span>
-        </button>
+        <Link to="/bookmark">
+          <button className={navItemClass}>
+            <GoBookmark size={30} />
+            <span>ブックマーク</span>
+          </button>
+        </Link>
         <button className={navItemClass}>
           <BsPeople size={30} />
           <span>コミュニティ</span>

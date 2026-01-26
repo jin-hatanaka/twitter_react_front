@@ -217,6 +217,7 @@ const ProfilePage = () => {
                   retweetCount={tweet.retweetCount}
                   isLiked={tweet.isLiked}
                   likeCount={tweet.likeCount}
+                  isBookmarked={tweet.isBookmarked}
                   fetchUserProfile={() => fetchUserProfile()}
                 />
               ))}

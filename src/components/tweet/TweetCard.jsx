@@ -1,5 +1,4 @@
 import { BiBarChart } from "react-icons/bi";
-import { GoBookmark } from "react-icons/go";
 import { FiUpload } from "react-icons/fi";
 import { cdate } from "cdate";
 import { Link } from "react-router-dom";
@@ -10,6 +9,7 @@ import TweetCardWrapper from "./TweetCardWrapper";
 import ReTweetButton from "../ui/ReTweetButton";
 import CommentButton from "../ui/CommentButton";
 import LikeButton from "../ui/LikeButton";
+import BookmarkButton from "../ui/BookmarkButton";
 
 const TweetCard = ({
   tweet,
@@ -24,6 +24,8 @@ const TweetCard = ({
   isLiked,
   likeCount,
   onClickLike,
+  isBookmarked,
+  onClickBookmark,
 }) => {
   const { currentUser } = useCurrentUser();
 
@@ -99,7 +101,10 @@ const TweetCard = ({
               <BiBarChart size={20} />
             </div>
             <div className="flex items-center gap-3">
-              <GoBookmark size={20} />
+              <BookmarkButton
+                isBookmarked={isBookmarked}
+                onClickBookmark={onClickBookmark}
+              />
               <FiUpload size={18} />
             </div>
           </div>
