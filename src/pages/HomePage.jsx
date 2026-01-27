@@ -81,6 +81,22 @@ const HomePage = () => {
     }
   };
 
+  const handleClickBookmark = async (tweetId, isBookmarked) => {
+    try {
+      if (isBookmarked) {
+        await apiClient.delete(`/bookmarks/${tweetId}`);
+        fetchTweets();
+      } else {
+        await apiClient.post("/bookmarks", {
+          tweet_id: tweetId,
+        });
+        fetchTweets();
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <div className="grid min-h-screen grid-cols-12 justify-center">
       <div className="col-span-3 pt-3 pl-23">
@@ -122,6 +138,7 @@ const HomePage = () => {
                 retweetCount={tweet.retweetCount}
                 isLiked={tweet.isLiked}
                 likeCount={tweet.likeCount}
+                isBookmarked={tweet.isBookmarked}
                 fetchTweets={fetchTweets}
                 onClickComment={() => {
                   setIsOpenComment(true);
@@ -131,6 +148,9 @@ const HomePage = () => {
                   handleClickRetweet(tweet.id, tweet.isRetweeted)
                 }
                 onClickLike={() => handleClickLike(tweet.id, tweet.isLiked)}
+                onClickBookmark={() =>
+                  handleClickBookmark(tweet.id, tweet.isBookmarked)
+                }
               />
             ))}
             <CommentModal
