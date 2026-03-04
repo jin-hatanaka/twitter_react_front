@@ -1,16 +1,34 @@
-# React + Vite
+## 概要
+本リポジトリは、React を用いて開発した
+Twitter クローンアプリのフロントエンドです。
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Rails API サーバーと連携し、
+モダンな SPA（Single Page Application）として設計・実装しており、
+認証・投稿・通知など、SNS に必要な主要機能を網羅しています。
 
-Currently, two official plugins are available:
+## 使用技術
+- React 19.1.1
+- Axios
+- Tailwind CSS 4.1.16
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 機能一覧
+- サインアップ・ログイン(devise_token_auth)
+- プロフィール閲覧・編集
+- ツイート機能(テキスト&画像)
+- いいね
+- リツイート
+- フォロー
+- コメント
+- ブックマーク
+- メッセージ機能(DM)
+- 通知機能
+- 退会機能
 
-## React Compiler
+## 工夫した点（作成中）
+- コンポーネント設計の最適化
+- 状態管理の明確化
+- API との責務分離
+- 再利用可能な UI 設計
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 画面イメージ
+![twitter](https://github.com/user-attachments/assets/9b347ce5-da05-4cad-91cd-252e8cacfc9d)
